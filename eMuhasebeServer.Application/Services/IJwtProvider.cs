@@ -5,6 +5,7 @@ namespace eMuhasebeServer.Application.Services
 {
     public interface IJwtProvider
     {
+        //JWT üretilecek imza
         Task<LoginCommandResponse> CreateToken(AppUser user);
     }
 }
