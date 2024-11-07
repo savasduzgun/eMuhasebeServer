@@ -7,6 +7,7 @@ using TS.Result;
 
 namespace eMuhasebeServer.Application.Features.Auth.Login
 {
+    //primary constructor da userManager,signInManager,jwtprovider kullanıldı.
     internal sealed class LoginCommandHandler(
         UserManager<AppUser> userManager,
         SignInManager<AppUser> signInManager,
@@ -14,6 +15,7 @@ namespace eMuhasebeServer.Application.Features.Auth.Login
     {
         public async Task<Result<LoginCommandResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
+            //önce kullanıcı aranıyor
             AppUser? user = await userManager.Users
                 .FirstOrDefaultAsync(p =>
                 p.UserName == request.EmailOrUserName ||
@@ -25,6 +27,7 @@ namespace eMuhasebeServer.Application.Features.Auth.Login
                 return (500, "Kullanıcı bulunamadı");
             }
 
+            //kullanıcı varsa şifre kontrolü yapılır. signInManager ile şifre tekraren yanlış girilirse istenilen süre kadar kullanıcı girişi engellenebilir.
             SignInResult signInResult = await signInManager.CheckPasswordSignInAsync(user, request.Password, true);
 
             if (signInResult.IsLockedOut)
@@ -46,6 +49,7 @@ namespace eMuhasebeServer.Application.Features.Auth.Login
                 return (500, "Şifreniz yanlış");
             }
 
+            //şifre yanlış değil ve kullanıcı da varsa loginResponse üretip geri dönüyor.
             var loginResponse = await jwtProvider.CreateToken(user);
 
 
