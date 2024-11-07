@@ -4,6 +4,8 @@ using MediatR;
 
 namespace eMuhasebeServer.Application.Behaviors
 {
+    //abstract Validator class ını inherit eden bir Validator class ı oluşturulursa otomatik olarak onu metoddan önce tespit edip çalıştırıp hata varsa ekranda hata olarak geri dönmesini sağlar.
+
     public sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
             where TRequest : class, IRequest<TResponse>
     {
