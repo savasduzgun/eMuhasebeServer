@@ -4,6 +4,7 @@ namespace eMuhasebeServer.Application.Features.Auth.Login
 {
     public sealed class LoginCommandValidator : AbstractValidator<LoginCommand>
     {
+        //kullanıcı için login işleminde 2 tane validasyon kuralı
         public LoginCommandValidator()
         {
             RuleFor(p => p.EmailOrUserName)
