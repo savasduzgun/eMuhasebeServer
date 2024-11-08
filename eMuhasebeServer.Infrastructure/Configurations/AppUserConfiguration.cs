@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace eMuhasebeServer.Infrastructure.Configurations
 {
+    //ApplicationDbContext deki assembly verilen metod için örnek ayar
     internal sealed class AppUserConfiguration : IEntityTypeConfiguration<AppUser>
     {
         public void Configure(EntityTypeBuilder<AppUser> builder)
