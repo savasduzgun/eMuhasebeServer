@@ -5,6 +5,7 @@ using System.Text;
 
 namespace eMuhasebeServer.Infrastructure.Options
 {
+    //JWT de kullanılacak ayarlar options pattern kullanılarak post configuration ile beraber tasarlandı.
     public sealed class JwtTokenOptionsSetup(
         IOptions<JwtOptions> jwtOptions) : IPostConfigureOptions<JwtBearerOptions>
     {
