@@ -15,13 +15,16 @@ namespace eMuhasebeServer.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
+            //db nin service registration işlemi, mssql kullanıldığı için UseSqlServer verildi. Appsettingjson da SqlServer key ine ait connectionstring verildi.
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("SqlServer"));
             });
 
+            //Kullanılan repository patterndaki unitofwork ApplicationDbContext e direkt implement edildiği için DI yapıldı.
             services.AddScoped<IUnitOfWork>(srv => srv.GetRequiredService<ApplicationDbContext>());
 
+            //identity kütüphanesinin DI yapıldı ve kuralları yazıldı.
             services
                 .AddIdentity<AppUser, IdentityRole<Guid>>(cfr =>
                 {
@@ -38,12 +41,18 @@ namespace eMuhasebeServer.Infrastructure
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            //JwtOptions class ının potionspattern ile beraber Appsettingjson dosyasından configure ve bind edildiği kayıt
             services.Configure<JwtOptions>(configuration.GetSection("Jwt"));
+
+            //JWT için yapılan ayarları alan service
             services.ConfigureOptions<JwtTokenOptionsSetup>();
+
+            //uygulamaya authentication ve authorization ı ekleyen service registration
             services.AddAuthentication()
                 .AddJwtBearer();
             services.AddAuthorizationBuilder();
 
+            //Scrutor kütüphanesini kullanarak Dependency injectionları yani IUserRepository UserRepository diye yazılan ScopedLife, ScopedSingleton ya da transit yaşam döngüsünde yazılan DI ları otomatik yapmasını sağlayan kod. Scrutor bunları otomatik yapıyor bu sayede repository patternda IUserRepository UserRepository oluşturulduğu zaman burada service.addscoped diyerek DI yapmaya gerek kalmıyor.
             services.Scan(action =>
             {
                 action
