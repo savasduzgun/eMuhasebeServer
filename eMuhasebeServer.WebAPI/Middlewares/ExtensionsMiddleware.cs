@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace eMuhasebeServer.WebAPI.Middlewares
 {
+    //uygulama çalıştığında default kullanıcı oluşturmak için
     public static class ExtensionsMiddleware
     {
         public static void CreateFirstUser(WebApplication app)
@@ -17,9 +18,9 @@ namespace eMuhasebeServer.WebAPI.Middlewares
                     {
                         UserName = "admin",
                         Email = "admin@admin.com",
-                        FirstName = "Taner",
-                        LastName = "Saydam",
-                        EmailConfirmed = true
+                        FirstName = "Savas",
+                        LastName = "Duzgun",
+                        EmailConfirmed = true //onaylı olmalı yoksa giriş yapamaz.
                     };
 
                     userManager.CreateAsync(user, "1").Wait();
